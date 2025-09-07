@@ -314,3 +314,17 @@ AddButton(Main, {
 loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Neymar-fly-51852"))()  
   end 
 })
+
+AddButton(Main, { 
+  Name = "اختفاء شفال", 
+  Callback = function() 
+loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Awesome-Invisible-man-21074"))() 
+  end 
+})
+
+AddButton(Main, { 
+  Name = "", 
+  Callback = function() 
+هنا السكربت 
+  end 
+})
