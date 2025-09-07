@@ -5352,3 +5352,161 @@ local args = {
 game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eTex1t"):FireServer(unpack(args))
   end
 })
+
+
+local Tab = Window:MakeTab({"Audio All", "music"})
+
+-- Create a section
+Tab:AddSection({"Audio Todos os Players"})
+
+-- Lista de áudios
+local audios = {
+    {Name = "Yamete Kudasai", ID = 108494476595033},
+    {Name = "Gritinho", ID = 5710016194},
+    {Name = "Jumpscare Horroroso", ID = 85435253347146},
+    {Name = "Áudio Alto", ID = 6855150757},
+    {Name = "Ruído", ID = 120034877160791},
+    {Name = "Jumpscare 2", ID = 110637995610528},
+    {Name = "Risada Da Bruxa Minecraft", ID = 116214940486087},
+    {Name = "The Boiled One", ID = 137177653817621},
+    {Name = "Deitei Um Ave Maria Doido", ID = 128669424001766},
+    {Name = "Mandrake Detected", ID = 9068077052},
+    {Name = "Aaaaaaaaa", ID = 80156405968805},
+    {Name = "AAAHHHH", ID = 9084006093},
+    {Name = "amongus", ID = 6651571134},
+    {Name = "Sus", ID = 6701126635},
+    {Name = "Gritao AAAAAAAAA", ID = 5853668794},
+    {Name = "UHHHHH COFFCOFF", ID = 7056720271},
+    {Name = "SUS", ID = 7153419575},
+    {Name = "Sonic.exe", ID = 2496367477},
+    {Name = "Tubers93 1", ID = 270145703},
+    {Name = "Tubers93 2", ID = 18131809532},
+    {Name = "John's Laugh", ID = 130759239},
+    {Name = "Nao sei KKKK", ID = 6549021381},
+    {Name = "Grito", ID = 80156405968805},
+    {Name = "Sus Audio", ID = 7705506391},
+    {Name = "AAAH", ID = 7772283448},
+    {Name = "Gay, gay", ID = 18786647417},
+    {Name = "Bat Hit", ID = 7129073354},
+    {Name = "Nuclear Siren", ID = 675587093},
+    {Name = "Sem ideia de nome KK", ID = 7520729342},
+    {Name = "Grito 2", ID = 91412024101709},
+    {Name = "Estora tímpano", ID = 268116333},
+    {Name = "Gemidão", ID = 106835463235574},
+    {Name = "Toma Jack", ID = 132603645477541},
+    {Name = "Pede ifood pede", ID = 133843750864059},
+    {Name = "I Ghost The down", ID = 84663543883498},
+    {Name = "Compre OnLine Na shoope", ID = 8747441609},
+    {Name = "Uh Que Nojo", ID = 103440368630269},
+    {Name = "Sai dai Lava Prato", ID = 101232400175829},
+    {Name = "Seloko num compensa", ID = 78442476709262},
+}
+
+local selectedAudioID
+
+-- Adicionar uma textbox para inserir o ID do áudio
+Tab:AddTextBox({
+    Name = "Insira o ID do Áudio ou Musica",
+    Description = "Digite o ID do áudio",
+    PlaceholderText = "ID do áudio",
+    Callback = function(value)
+        selectedAudioID = tonumber(value)
+    end
+})
+
+-- Adicionar uma dropdown para selecionar o áudio
+local audioNames = {}
+for _, audio in ipairs(audios) do
+    table.insert(audioNames, audio.Name)
+end
+
+Tab:AddDropdown({
+    Name = "Selecione o Áudio",
+    Description = "Escolha um áudio da lista",
+    Options = audioNames,
+    Default = audioNames[1],
+    Flag = "selected_audio",
+    Callback = function(value)
+        for _, audio in ipairs(audios) do
+            if audio.Name == value then
+                selectedAudioID = audio.ID
+                break
+            end
+        end
+    end
+})
+
+-- Controle do loop
+local audioLoop = false
+
+-- Nova seção para loop de áudio
+Tab:AddSection({"Loop de Audio"})
+
+-- Função para tocar o áudio repetidamente
+local function playLoopedAudio()
+    while audioLoop do
+        if selectedAudioID then
+            local args = {
+                [1] = game:GetService("Workspace"),
+                [2] = selectedAudioID,
+                [3] = 1,
+            }
+            game:GetService("ReplicatedStorage").RE:FindFirstChild("1Gu1nSound1s"):FireServer(unpack(args))
+
+            -- Criar e tocar o áudio
+            local sound = Instance.new("Sound")
+            sound.SoundId = "rbxassetid://" .. selectedAudioID
+            sound.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+            sound:Play()
+        else
+            warn("Nenhum áudio selecionado!")
+        end
+
+        task.wait(0.5) -- Pequeno delay para evitar sobrecarga
+    end
+end
+
+-- Toggle para loop de áudio
+Tab:AddToggle({
+    Name = "Loop Tocar Áudio",
+    Description = "Ativa o loop do áudio",
+    Default = false,
+    Flag = "audio_loop",
+    Callback = function(value)
+        audioLoop = value
+        if audioLoop then
+            task.spawn(playLoopedAudio) -- Inicia o loop em uma nova thread
+        end
+    end
+})
+
+-- Adicionar um parágrafo como label
+Tab:AddParagraph({"Info", "Loop de tocar Áudio (Todos players do Server ouvem)"})
+
+-- Função para tocar o áudio normal
+local function playAudio()
+    if selectedAudioID then
+        local args = {
+            [1] = game:GetService("Workspace"),
+            [2] = selectedAudioID,
+            [3] = 1,
+        }
+        game:GetService("ReplicatedStorage").RE:FindFirstChild("1Gu1nSound1s"):FireServer(unpack(args))
+
+        -- Criar e tocar o áudio
+        local sound = Instance.new("Sound")
+        sound.SoundId = "rbxassetid://" .. selectedAudioID
+        sound.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+        sound:Play()
+    else
+        warn("Nenhum áudio selecionado!")
+    end
+end
+
+-- Botão para tocar o áudio
+Tab:AddButton({
+    Name = "Tocar Áudio",
+    Callback = function()
+        playAudio()
+    end
+})
