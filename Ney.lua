@@ -5354,7 +5354,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eTe
 })
 
 
-local Tab = Window:MakeTab({"Audio All", "music"})
+local Main = MakeTab({Name = "اغاني مجانيه"})
 
 -- Create a section
 Tab:AddSection({"Audio Todos os Players"})
@@ -5400,6 +5400,7 @@ local audios = {
     {Name = "Uh Que Nojo", ID = 103440368630269},
     {Name = "Sai dai Lava Prato", ID = 101232400175829},
     {Name = "Seloko num compensa", ID = 78442476709262},
+    {Name = "Seloko zij iraqi", ID = 104478883440821},
 }
 
 local selectedAudioID
